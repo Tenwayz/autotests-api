@@ -1,0 +1,23 @@
+from clients.api_client import ApiClient
+from httpx import Response
+from typing import TypedDict
+
+class LoginRequestDict(TypedDict):
+    """
+    Описание структуры запроса на аутентификацию.
+    """
+    email: str
+    password: str
+
+class RefreshRequestDict(TypedDict):
+    refreshToken: str
+
+class AuthenticationClient(ApiClient):
+    """
+    Клиент для работы с /api/v1/authentication
+    """
+    def login_api(self, request: LoginRequestDict) -> Response:
+        return self.post("/api/v1/authentication/login", json=request)
+
+    def refresh_api(self, request: RefreshRequestDict) -> Response:
+        return self.post("/api/v1/authentication/refresh", json=request)
